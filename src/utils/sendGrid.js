@@ -1,7 +1,7 @@
 const sgMail = require('@sendgrid/mail')
 const MAIL_TEMPLATES = require('../templets/email.templets')
 
-sgMail.setApiKey('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')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 const buildAndSendEmail = (template_name, reciever_email, template_vars) => {
       try {
