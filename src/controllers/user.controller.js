@@ -1,8 +1,8 @@
 const { User } = require("../models");
 const Book = require("../models/book");
 const ApiError = require("../utils/ApiError");
-const brcypt = require('bcrypt')
-const jwt = require("jsonwebtoken")
+const brcypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const { asyncHandler } = require("../utils/asyncHandler");
 const { Op } = require("sequelize");
 const Order = require("../models/order");
@@ -35,32 +35,33 @@ exports.userLogin = asyncHandler(async (req, res) => {
   });
 });
 
-exports.bookListing = asyncHandler(async(req,res)=>{
-    const books = await Book.findAll({where:{status:{[Op.ne]:"PENDING"}}});
-    if(!books) throw new ApiError("Books does not exist",400);
-    return res.status(200).send({
-        status: true,
-        books
-      });
-})
+exports.bookListing = asyncHandler(async (req, res) => {
+  const books = await Book.findAll({
+    where: { status: { [Op.ne]: "PENDING" } },
+  });
+  if (!books) throw new ApiError("Books does not exist", 400);
+  return res.status(200).send({
+    status: true,
+    books,
+  });
+});
 
-
-exports.orderBook = asyncHandler(async(req,res)=>{
-    const {bookId,qty} = req.body;
-    const user = req.user;
-    if (user?.role !== "USER")
+exports.orderBook = asyncHandler(async (req, res) => {
+  const { bookId, qty } = req.body;
+  const user = req.user;
+  if (user?.role !== "USER")
     throw new ApiError(
       "Don't have permission to perform particular actions",
       400
     );
-    if(!bookId) throw new ApiError("Book must be provided",400);
-    if(!qty) throw new ApiError("Qty is required",400);
-    const book = await Book.findOne({where:{id:bookId}});
-    if(!book) throw new ApiError("Book does not exist",400);
-    await Order.create({bookId:bookId, qty:qty,  orderByUserId:user.id});
-    await sendBookOrderEmailToSuperAdmin(book.title,user.email)
-    return res.status(200).send({
-        status: true,
-        msg:"Book Ordered successfully"
-      });
-})
+  if (!bookId) throw new ApiError("Book must be provided", 400);
+  if (!qty) throw new ApiError("Qty is required", 400);
+  const book = await Book.findOne({ where: { id: bookId } });
+  if (!book) throw new ApiError("Book does not exist", 400);
+  await Order.create({ bookId: bookId, qty: qty, orderByUserId: user.id });
+  await sendBookOrderEmailToSuperAdmin(book.title, user.email);
+  return res.status(200).send({
+    status: true,
+    msg: "Book Ordered successfully",
+  });
+});
