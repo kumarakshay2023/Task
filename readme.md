@@ -48,7 +48,7 @@ npm run migration
     - /api/admin/books
   - get books for user
     - /api/user/books
-    
+
 ## Creating API End Points
   - super admin login
     - /api/super-admin/login
@@ -63,6 +63,17 @@ npm run migration
   - user for book order
     - /api/user/book/order
 
+## Updating API End Points
+  - super admin book approve 
+    - /api/super-admin/approve/book/:bookId
+  - super admin book reject
+    - /api/super-admin/reject/book/:bookId
+  - admin for book update
+   - /api/admin/book/:bookId
+
+## Deleting API End Points
+  - admin book delete
+   - /api/admin/book/:bookId
 
   
 
