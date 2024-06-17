@@ -22,4 +22,5 @@ const buildAndSendEmail = (template_name, reciever_email, template_vars) => {
     exports.sendUserOrAdminAddEmail = (reciever_email, name,password,email,role) => buildAndSendEmail("USER_ADMIN_ADD", reciever_email, { NAME:name,EMAIL:email,PASSWORD:password,ROLE:role  });
     exports.sendSuperAdminEmailOnBookAdd = (email) =>buildAndSendEmail("BOOK_ADDED",'akshay.kumar@gmail.com',{EMAIL:email});
     exports.sendSuperAdminEmailOnBookUpdate = (email) =>buildAndSendEmail("BOOK_UPDATED",'akshay.kumar@gmail.com',{EMAIL:email})
+    exports.sendRejectEmailOnBookAdd = (reciever_email,bookName) =>buildAndSendEmail("REJECTED_BOOK_REQUEST",reciever_email,{BOOKNAME:bookName});
   

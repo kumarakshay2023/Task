@@ -15,11 +15,14 @@ exports.auth = asyncHandler(async (req, res, next) => {
       id: decoded.id,
     },
   });
+  if(user.token !== token){
+    throw new ApiError("Token expires please login again", 400);
+  }
   if (!user) throw new ApiError("Invalid user token", 400);
   req.user = user;
   next()
   } catch (error) {
-     throw new ApiError("Token not found",400)
+     throw Error(error)
   }
   
 });

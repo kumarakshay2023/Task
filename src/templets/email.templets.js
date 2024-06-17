@@ -21,3 +21,10 @@ exports.BOOK_UPDATED=({EMAIL})=>({
        EMAIL
     },
 })
+
+exports.REJECTED_BOOK_REQUEST = ({EMAIL})=>({
+    templateId:'d-9a9ad55189d64fa8a3b9f2e60ad4ac97',
+    dynamic_template_data: {
+        EMAIL
+     },
+});
