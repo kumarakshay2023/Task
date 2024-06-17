@@ -13,6 +13,7 @@
 # Getting-started
 ```
 - Install dependencies
+
 ```
 cd <project-name>
 
@@ -41,6 +42,11 @@ npm run seed:all:up
 ```
 npm run migration
 ```
-
+# API-endpoints
+## Reading Api End Points
+  - get books for admin 
+    - /api/admin/books
+  - get books for user
+    - /api/user/books
 
 - This note.txt file add project related instruction
