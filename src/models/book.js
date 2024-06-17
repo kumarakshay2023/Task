@@ -21,6 +21,10 @@ const Book = sequelize.define("Book", {
   },
   description: {
     type: DataTypes.TEXT,
+    allowNull:true,
+  },
+  price:{
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   status: {

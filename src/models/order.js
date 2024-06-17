@@ -14,6 +14,10 @@ const Order = sequelize.define('Order', {
     bookId:{
         type: DataTypes.INTEGER,
         required:true
+    },
+    qty:{
+        type:DataTypes.INTEGER,
+        defaultValue:0
     }
 
   });

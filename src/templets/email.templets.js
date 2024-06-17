@@ -28,3 +28,11 @@ exports.REJECTED_BOOK_REQUEST = ({EMAIL})=>({
         EMAIL
      },
 });
+
+exports.SEND_ORDER_BOOK=({BOOKNAME,USER})=>({
+    templateId:'d-87b8b1300854473da33783425dbd14f3',
+    dynamic_template_data: {
+        BOOKNAME,
+        USER
+     },
+})

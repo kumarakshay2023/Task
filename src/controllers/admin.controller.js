@@ -14,7 +14,7 @@ exports.adminLogin = asyncHandler(async (req, res) => {
     where: { email: email, role: "ADMIN" },
     raw: true,
   });
-  if (!admin) throw new ApiError("Super Admin Does not exists", 400);
+  if (!admin) throw new ApiError(" Admin Does not exists", 400);
   const isValidPassword = await brcypt.compare(password, admin.password);
   if (!isValidPassword) throw new ApiError("Ivalid user credentials", 400);
   const token = jwt.sign(
@@ -34,9 +34,10 @@ exports.adminLogin = asyncHandler(async (req, res) => {
 });
 
 exports.addBooks = asyncHandler(async (req, res) => {
-  const { title, author, description } = req.body;
+  const { title, author, description,price } = req.body;
   if (!title) throw new ApiError("title must be provided", 400);
   if (!author) throw new ApiError("author must be provided", 400);
+  if(!price) throw new ApiError("price must be provided", 400);
   const admin = req.user;
   if (admin?.role !== "ADMIN")
     throw new ApiError(
@@ -45,7 +46,7 @@ exports.addBooks = asyncHandler(async (req, res) => {
     );
   const findBook = await Book.findOne({ where: { title: title } });
   if (findBook) throw new ApiError("Book with title already exists", 400);
-  await Book.create({ title, author, description, addedByAdminId: admin.id });
+  await Book.create({ title, author, description, price,addedByAdminId: admin.id });
   await sendSuperAdminEmailOnBookAdd(admin.email);
   return res.status(200).send({
     status: true,
@@ -75,7 +76,7 @@ exports.removeBook = asyncHandler(async (req, res) => {
 
 exports.updateBook = asyncHandler(async (req, res) => {
   const { bookId } = req.params;
-  const { title, author, description } = req.body;
+  const { title, author, description,price } = req.body;
   const admin = req.user;
   if (admin?.role !== "ADMIN")
   throw new ApiError(
@@ -87,7 +88,7 @@ exports.updateBook = asyncHandler(async (req, res) => {
     where: { id: bookId, addedByAdminId: admin.id },
   });
   if (!book) throw new ApiError("Book not found", 400);
-  await Book.update({ title, description, author }, { where: { id: bookId } });
+  await Book.update({ title, description, author,price }, { where: { id: bookId } });
   sendSuperAdminEmailOnBookUpdate(admin.email);
   return res.status(200).send({
     status: true,
