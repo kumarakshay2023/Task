@@ -1,11 +1,9 @@
-const { User } = require("../models");
-const Book = require("../models/book");
+const { User,Book,Order } = require("../models");
 const ApiError = require("../utils/ApiError");
 const brcypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { asyncHandler } = require("../utils/asyncHandler");
 const { Op } = require("sequelize");
-const Order = require("../models/order");
 const { sendBookOrderEmailToSuperAdmin } = require("../utils/sendGrid");
 
 exports.userLogin = asyncHandler(async (req, res) => {

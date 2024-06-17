@@ -1,11 +1,10 @@
 const { asyncHandler } = require("../utils/asyncHandler");
 const brcypt = require("bcrypt");
-const { User } = require("../models");
+const { User,Book,UserLogs } = require("../models");
 const jwt = require("jsonwebtoken");
-const Book = require("../models/book");
 const ApiError = require("../utils/ApiError");
 const {  sendSuperAdminEmailOnBookAdd, sendSuperAdminEmailOnBookUpdate } = require("../utils/sendGrid");
-const UserLogs = require("../models/userLogs");
+
 
 exports.adminLogin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
