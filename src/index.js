@@ -2,6 +2,7 @@ require("dotenv").config();
 const express = require('express');
 const app = express();
 const superAdminRouter = require('./routes/superAdmin.route')
+const adminRouter = require('./routes/admin.routes')
 const cors = require('cors');
 require("./models/index");
 
@@ -12,6 +13,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/api/super-admin',superAdminRouter);
+app.use('/api/admin',adminRouter)
 
 app.use((err, req, res, next) => {
     res.status(500).json({

@@ -6,13 +6,11 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 const buildAndSendEmail = (template_name, reciever_email, template_vars) => {
       try {
         const chooseTemplate = MAIL_TEMPLATES[template_name](template_vars);
-        console.log('asdad',chooseTemplate)
         const msg = {
           to: reciever_email,
           from: 'kumarakshay2023@gmail.com',
           ...chooseTemplate,
         };
-        console.log('asdasd',msg)
         sgMail.send(msg);
   
   
@@ -22,4 +20,6 @@ const buildAndSendEmail = (template_name, reciever_email, template_vars) => {
     }
 
     exports.sendUserOrAdminAddEmail = (reciever_email, name,password,email,role) => buildAndSendEmail("USER_ADMIN_ADD", reciever_email, { NAME:name,EMAIL:email,PASSWORD:password,ROLE:role  });
+    exports.sendSuperAdminEmailOnBookAdd = (email) =>buildAndSendEmail("BOOK_ADDED",'akshay.kumar@gmail.com',{EMAIL:email});
+    exports.sendSuperAdminEmailOnBookUpdate = (email) =>buildAndSendEmail("BOOK_UPDATED",'akshay.kumar@gmail.com',{EMAIL:email})
   

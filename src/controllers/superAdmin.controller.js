@@ -9,7 +9,7 @@ exports.superAdminLogin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   if (!email) throw new ApiError("email must be provided", 400);
   if (!password) throw new ApiError("passowrd must be provided", 400);
-  const superAdmin = await User.findOne({ where: { email: email }, raw: true });
+  const superAdmin = await User.findOne({ where: { email: email,role:"SUPER_ADMIN" }, raw: true });
   if (!superAdmin) throw new ApiError("Super Admin Does not exists", 400);
   const isValidPassword = await brcypt.compare(password, superAdmin.password);
   if (!isValidPassword) throw new ApiError("Ivalid user credentials", 400);
