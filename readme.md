@@ -43,10 +43,27 @@ npm run seed:all:up
 npm run migration
 ```
 # API-endpoints
-## Reading Api End Points
+## Reading API End Points
   - get books for admin 
     - /api/admin/books
   - get books for user
     - /api/user/books
+    
+## Creating API End Points
+  - super admin login
+    - /api/super-admin/login
+  - super admin for adding user and admin
+    - /api/super-admin/add-user-admin
+  - admin login 
+    - /api/admin/login
+  - admin for adding book
+    - /api/admin/book
+  - user for login
+    - /api/user/login
+  - user for book order
+    - /api/user/book/order
+
+
+  
 
 - This note.txt file add project related instruction
