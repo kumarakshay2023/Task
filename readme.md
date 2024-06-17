@@ -75,6 +75,12 @@ npm run migration
   - admin book delete
    - /api/admin/book/:bookId
 
+## Common API End Points
+  - forgot password
+   - /api/common/forgot-password
+  - reset password
+   - /api/common/reset-password
+
   
 
 - This note.txt file add project related instruction
