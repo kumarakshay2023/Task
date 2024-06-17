@@ -5,6 +5,7 @@ const jwt = require("jsonwebtoken");
 const Book = require("../models/book");
 const ApiError = require("../utils/ApiError");
 const {  sendSuperAdminEmailOnBookAdd, sendSuperAdminEmailOnBookUpdate } = require("../utils/sendGrid");
+const UserLogs = require("../models/userLogs");
 
 exports.adminLogin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -25,6 +26,7 @@ exports.adminLogin = asyncHandler(async (req, res) => {
     process.env.JWT_SECRET
   );
   await User.update({ token: token }, { where: { id: admin.id } });
+  await UserLogs.create({activity:"Admin login",userAgent:admin.id,timestamp:Date.now()})
   admin.token = token;
   return res.status(200).send({
     status: true,
@@ -48,6 +50,8 @@ exports.addBooks = asyncHandler(async (req, res) => {
   if (findBook) throw new ApiError("Book with title already exists", 400);
   await Book.create({ title, author, description, price,addedByAdminId: admin.id });
   await sendSuperAdminEmailOnBookAdd(admin.email);
+  await UserLogs.create({activity:"Book added by admin",userAgent:admin.id,timestamp:Date.now()})
+
   return res.status(200).send({
     status: true,
     msg: "Book Added Successfully",
@@ -68,6 +72,8 @@ exports.removeBook = asyncHandler(async (req, res) => {
   });
   if (!book) throw new ApiError("Book not found", 400);
   await Book.destroy({ where: { id: bookId } });
+  await UserLogs.create({activity:"Book removed by admin",userAgent:admin.id,timestamp:Date.now()})
+
   return res.status(200).send({
     status: true,
     msg: "Book Removed Successfully",
@@ -90,6 +96,8 @@ exports.updateBook = asyncHandler(async (req, res) => {
   if (!book) throw new ApiError("Book not found", 400);
   await Book.update({ title, description, author,price }, { where: { id: bookId } });
   sendSuperAdminEmailOnBookUpdate(admin.email);
+  await UserLogs.create({activity:"Book update by admin",userAgent:admin.id,timestamp:Date.now()})
+
   return res.status(200).send({
     status: true,
     msg: "Book Updated Successfully",

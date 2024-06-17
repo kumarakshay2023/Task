@@ -28,6 +28,8 @@ exports.userLogin = asyncHandler(async (req, res) => {
   );
   await User.update({ token: token }, { where: { id: user.id } });
   user.token = token;
+  await UserLogs.create({activity:"User login ",userAgent:user.id,timestamp:Date.now()})
+
   return res.status(200).send({
     status: true,
     user,
@@ -60,6 +62,8 @@ exports.orderBook = asyncHandler(async (req, res) => {
   if (!book) throw new ApiError("Book does not exist", 400);
   await Order.create({ bookId: bookId, qty: qty, orderByUserId: user.id });
   await sendBookOrderEmailToSuperAdmin(book.title, user.email);
+  await UserLogs.create({activity:"Book Ordered by user",userAgent:user.id,timestamp:Date.now()})
+
   return res.status(200).send({
     status: true,
     msg: "Book Ordered successfully",

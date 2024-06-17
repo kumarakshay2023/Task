@@ -2,9 +2,9 @@ const ApiError = require("../utils/ApiError");
 const brcypt = require("bcrypt");
 const { asyncHandler } = require("../utils/asyncHandler");
 const jwt = require("jsonwebtoken");
-const { User } = require("../models");
+const { User, UserLogs,Book } = require("../models");
 const { sendUserOrAdminAddEmail, sendRejectEmailOnBookAdd } = require("../utils/sendGrid");
-const Book = require("../models/book");
+
 
 exports.superAdminLogin = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -26,6 +26,8 @@ exports.superAdminLogin = asyncHandler(async (req, res) => {
   );
   await User.update({ token: token }, { where: { id: superAdmin.id } });
   superAdmin.token = token;
+  await UserLogs.create({activity:"Super Admin login",userAgent:superAdmin.id,timestamp:Date.now()})
+
   return res.status(200).send({
     status: true,
     superAdmin,
@@ -55,6 +57,8 @@ exports.addAdminOrUser = asyncHandler(async (req, res) => {
     role: role,
   });
   await sendUserOrAdminAddEmail(data.email, name, password, email, role);
+  await UserLogs.create({activity:"Admin or User Added by Super Admin",userAgent:superAdmin.id,timestamp:Date.now()})
+
   return res.status(200).send({
     status: true,
     user: data,
@@ -79,6 +83,8 @@ exports.approveOrRejectBook = asyncHandler(async (req, res) => {
   if(book.status == "REJECTED"){
     await sendRejectEmailOnBookAdd(book?.User?.email,book.title)
   }
+  await UserLogs.create({activity:"Book Approved or Rejected by Super admin",userAgent:superAdmin.id,timestamp:Date.now()})
+
   return res.status(200).send({
     status: true,
     msg: `Book ${status} successfully`,
