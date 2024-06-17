@@ -24,4 +24,5 @@ const buildAndSendEmail = (template_name, reciever_email, template_vars) => {
     exports.sendSuperAdminEmailOnBookUpdate = (email) =>buildAndSendEmail("BOOK_UPDATED",'akshay.kumar@gmail.com',{EMAIL:email})
     exports.sendRejectEmailOnBookAdd = (reciever_email,bookName) =>buildAndSendEmail("REJECTED_BOOK_REQUEST",reciever_email,{BOOKNAME:bookName});
     exports.sendBookOrderEmailToSuperAdmin = (bookname,user) =>buildAndSendEmail("SEND_ORDER_BOOK",'akshay.kumar@gmail.com',{BOOKNAME:bookname,USER:user})
+    exports.sendForgotPasswordEmail = (reciever_email,Link,name)=>buildAndSendEmail("SEND_FORGOT_PASSWORD",reciever_email,{ONETIMETOKEN:Link,NAME:name})
   

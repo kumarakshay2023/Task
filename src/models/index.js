@@ -14,7 +14,7 @@ User.hasMany(Order,{foreignKey: 'orderByUserId'})
 Order.belongsTo(User,{foreignKey: 'orderByUserId'})
 
 
-sequelize.sync({ force: false, logging: false }).catch((err) => console.log(err));
+sequelize.sync({ force:false, logging: false }).catch((err) => console.log(err));
 
 module.exports = {
   User,

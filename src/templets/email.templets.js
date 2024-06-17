@@ -36,3 +36,11 @@ exports.SEND_ORDER_BOOK=({BOOKNAME,USER})=>({
         USER
      },
 })
+
+exports.SEND_FORGOT_PASSWORD =({Link,NAME})=>({
+    templateId:'d-bc23aa323c034aeba2ab2985359faea2',
+    dynamic_template_data: {
+      Link,
+      NAME
+     },
+})
